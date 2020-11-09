@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled, { css } from 'styled-components';
 import { Typography } from '@material-ui/core';
-// import csvConverter from './utils/csvConverter';
+import csvConverter from './utils/csvConverter';
 import { ReactComponent as CSVIcon } from './assets/csv.svg';
+import DataContext from './context/DataContext';
 
 const StyledIcon = styled(CSVIcon)`
   max-width: 15%;
@@ -32,6 +33,8 @@ const StyledWrapper = styled.div`
 `;
 
 function Dropzone() {
+  const { setData } = useContext(DataContext);
+
   const onDrop = useCallback(acceptedFiles => {
     acceptedFiles.forEach(file => {
       const reader = new global.FileReader();
@@ -40,8 +43,8 @@ function Dropzone() {
       try {
         if (acceptedFiles[0].type !== 'application/vnd.ms-excel') throw new Error('błąd');
         reader.onload = () => {
-          // const data = reader.result
-          // console.log(csvConverter(data))
+          const data = reader.result;
+          setData(csvConverter(data));
         };
         reader.readAsText(file);
       } catch (error) {
