@@ -18,14 +18,14 @@ const StyledWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: calc(100vh - 10rem);
   transition: 0.3s;
-
+  border: 2px solid white;
   ${({ dragged }) =>
     dragged &&
     css`
       background-color: #feefe5;
-
+      border: 2px solid orange;
       svg {
         color: black;
       }
