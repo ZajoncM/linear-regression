@@ -2,9 +2,9 @@ import React, { useCallback, useContext } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled, { css } from 'styled-components';
 import { Typography } from '@material-ui/core';
-import csvConverter from './utils/csvConverter';
-import { ReactComponent as CSVIcon } from './assets/csv.svg';
-import DataContext from './context/DataContext';
+import csvConverter from '../utils/csvConverter';
+import { ReactComponent as CSVIcon } from '../assets/csv.svg';
+import DataContext from '../context/DataContext';
 
 const StyledIcon = styled(CSVIcon)`
   max-width: 15%;
