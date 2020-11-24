@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography, Snackbar } from '@material-ui/core';
 import Table from './components/Table';
 import Dropzone from './components/Dropzone';
 import GlobalStyle from './styles/globalStyles';
@@ -25,9 +25,9 @@ const StyledTitle = styled(Grid)`
 
 function App() {
   const [data, setData] = useState([]);
-
+  const [error, setError] = useState(false);
   return (
-    <DataContext.Provider value={{ data, setData }}>
+    <DataContext.Provider value={{ data, setData, setError }}>
       <GlobalStyle />
       <StyledWrapper container spacing={2} className="App">
         <StyledTitle item xs={12}>
@@ -36,7 +36,7 @@ function App() {
         {data.length ? (
           <>
             <Grid container justify="center" item xs={12} md={3}>
-              <Table data={data} />
+              <Table />
             </Grid>
             <Grid container justify="center" item xs={12} md={9}>
               <Scatter />
@@ -48,6 +48,12 @@ function App() {
           </Grid>
         )}
       </StyledWrapper>
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        open={error}
+        onClose={() => setError(false)}
+        message="Błędny format danych"
+      />
     </DataContext.Provider>
   );
 }

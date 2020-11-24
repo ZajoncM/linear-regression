@@ -33,7 +33,7 @@ const StyledWrapper = styled.div`
 `;
 
 function Dropzone() {
-  const { setData } = useContext(DataContext);
+  const { setData, setError } = useContext(DataContext);
 
   const onDrop = useCallback(acceptedFiles => {
     acceptedFiles.forEach(file => {
@@ -44,7 +44,9 @@ function Dropzone() {
         if (acceptedFiles[0].type !== 'application/vnd.ms-excel') throw new Error('błąd');
         reader.onload = () => {
           const data = reader.result;
-          setData(csvConverter(data));
+          const response = csvConverter(data);
+          if (response) setData(response);
+          else setError(true);
         };
         reader.readAsText(file);
       } catch (error) {
