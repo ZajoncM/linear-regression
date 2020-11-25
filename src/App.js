@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Grid, Typography, Snackbar } from '@material-ui/core';
+import { Grid, Typography, Snackbar, Fab, Popover } from '@material-ui/core';
 import Table from './components/Table';
 import Dropzone from './components/Dropzone';
 import GlobalStyle from './styles/globalStyles';
 import DataContext from './context/DataContext';
 import Scatter from './components/Scatter';
+import { ReactComponent as Question } from './assets/question.svg';
 
 const StyledWrapper = styled(Grid)`
   min-height: 100vh;
@@ -23,9 +24,28 @@ const StyledTitle = styled(Grid)`
   justify-content: center;
 `;
 
+const StyledFab = styled(Fab)`
+  && {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+  }
+`;
+
+const StyledQuestion = styled(Question)`
+  width: 30%;
+`;
+
+const StyledTypography = styled(Typography)`
+  padding: 1rem;
+`;
+
 function App() {
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
   return (
     <DataContext.Provider value={{ data, setData, setError }}>
       <GlobalStyle />
@@ -43,9 +63,46 @@ function App() {
             </Grid>
           </>
         ) : (
-          <Grid item xs={12}>
-            <Dropzone />
-          </Grid>
+          <>
+            <Grid item xs={12}>
+              <Dropzone />
+              <StyledFab color="primary" onClick={() => setAnchorEl(true)}>
+                <StyledQuestion />
+              </StyledFab>
+              <Popover
+                open={open}
+                anchorEl={anchorEl}
+                onClose={() => setAnchorEl(false)}
+                anchorOrigin={{
+                  vertical: 'center',
+                  horizontal: 'center',
+                }}
+                transformOrigin={{
+                  vertical: 'center',
+                  horizontal: 'center',
+                }}
+              >
+                <StyledTypography>
+                  Zawartość pliku powinien wyglądać w następujący sposób:
+                  <br />
+                  x1,y1
+                  <br />
+                  x2,y2
+                  <br />
+                  x3,y3
+                  <br />
+                  <br />
+                  Przykład:
+                  <br />
+                  2,4
+                  <br />
+                  5,6
+                  <br />
+                  7,2
+                </StyledTypography>
+              </Popover>
+            </Grid>
+          </>
         )}
       </StyledWrapper>
       <Snackbar

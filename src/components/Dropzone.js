@@ -38,19 +38,24 @@ function Dropzone() {
   const onDrop = useCallback(acceptedFiles => {
     acceptedFiles.forEach(file => {
       const reader = new global.FileReader();
-      // reader.onabort = () => console.log('file reading was aborted')
-      // reader.onerror = () => console.log('file reading has failed')
       try {
-        if (acceptedFiles[0].type !== 'application/vnd.ms-excel') throw new Error('błąd');
-        reader.onload = () => {
-          const data = reader.result;
-          const response = csvConverter(data);
-          if (response) setData(response);
-          else setError(true);
-        };
-        reader.readAsText(file);
+        if (
+          acceptedFiles[0].type === 'application/vnd.ms-excel' ||
+          acceptedFiles[0].type === 'text/plain'
+        ) {
+          reader.onload = () => {
+            const data = reader.result;
+            const response = csvConverter(data);
+            if (response) setData(response);
+            else setError(true);
+          };
+          reader.readAsText(file);
+        } else {
+          setError(true);
+          throw new Error('błąd');
+        }
       } catch (error) {
-        // console.log(error)
+        console.log(error);
       }
     });
   }, []);
@@ -62,7 +67,9 @@ function Dropzone() {
       <input {...getInputProps()} />
       <StyledIcon />
       <Typography variant="subtitle1">
-        {isDragActive ? 'Upuść tutaj ...' : 'Kliknij tu aby dodaj plik .csv lub przeciągnij tutaj'}
+        {isDragActive
+          ? 'Upuść tutaj ...'
+          : 'Kliknij tu aby dodaj plik .csv lub .txt, lub przeciągnij tutaj'}
       </Typography>
     </StyledWrapper>
   );
