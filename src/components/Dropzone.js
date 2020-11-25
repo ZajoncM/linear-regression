@@ -55,7 +55,7 @@ function Dropzone() {
           throw new Error('błąd');
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     });
   }, []);

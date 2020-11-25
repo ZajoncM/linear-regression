@@ -12,6 +12,7 @@
         {
           "extensions": [".js"]
         }
-      ]
+      ],
+      "react/no-array-index-key": 0
     }
   }

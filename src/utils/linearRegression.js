@@ -27,10 +27,7 @@ const linearRegression = data => {
   const maxX = Math.max(...arrayX) + 2;
   const minY = a + b * minX;
   const maxY = a + b * maxX;
-  console.log([
-    { x: minX, y: minY },
-    { x: maxX, y: maxY },
-  ]);
+
   return [
     { x: minX, y: minY },
     { x: maxX, y: maxY },
